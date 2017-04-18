@@ -1,0 +1,24 @@
+<EnterpriseApplication>
+	<WebServer>
+		<Name>wwwint-eCalypso-com</Name>
+		<Port>80</Port>
+		<WebRoot>J:/IBM/HTTPServer80</WebRoot>
+		<PluginRoot>J:/IBM/WebSphere/Plugins</PluginRoot>
+		<WebConf>J:/conf/INT/wwwint.eCalypso.com/httpd.conf</WebConf>
+		<PluginConf>J:/conf/INT/wwwint.eCalypso.com/plugin-cfg.xml</PluginConf>
+		<PluginLog>J:/logs/INT/wwwint.eCalypso.com/http_plugin.log</PluginLog>
+                <ServiceName>IBMHTTPServer80-wwwint.eCalypso.com</ServiceName>
+		<Nodes>
+			<Node>
+				<NodeName>wwwint.eCalypso.com-ihs720aV80</NodeName>
+				<HostName>10.255.161.74</HostName>
+				<NodeOS>windows</NodeOS>
+			</Node>
+			<Node>
+				<NodeName>wwwint.eCalypso.com-ihs720bV80</NodeName>
+				<HostName>10.255.161.115</HostName>
+				<NodeOS>windows</NodeOS>
+			</Node>
+		</Nodes>
+	</WebServer>
+</EnterpriseApplication>

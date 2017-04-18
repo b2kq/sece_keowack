@@ -1,0 +1,74 @@
+JYTHON_HOME = "/promotion/jython"
+execfile(JYTHON_HOME+"/global.py")
+execfile(JYTHON_HOME+"/globalconstants.py")
+execfile(JYTHON_HOME+"/validateCluster.py")
+
+def rippleStartCluster(clusterName):
+   try:
+      clusterMBean = AdminControl.completeObjectName('WebSphere:type=Cluster,name=' + clusterName + ',*')
+      clusterMgr   = AdminControl.completeObjectName('cell=' + cellName + ',type=ClusterMgr,*')
+      clusterState = AdminControl.getAttribute(clusterMBean, 'state')
+      clusterID    = AdminConfig.getid("/ServerCluster:" +clusterName+"/")
+      AdminControl.invoke(clusterMgr, 'retrieveClusters')
+      print ""
+      # Ripple start if the cluster is running
+      if (clusterState == "websphere.cluster.running"):
+         print "INFO: Ripple start cluster " + clusterName +" in progress..."
+         AdminControl.invoke(clusterMBean, 'rippleStart')
+         #print "INFO: " + clusterName + " successfully started."
+         status = _SUCCESS_
+      # Start if the cluster is stopped
+      elif (clusterState == "websphere.cluster.stopped"):
+         print "INFO: All JVMs in cluster are currently stopped, starting " + clusterName +" in progress..."
+         AdminControl.invoke(clusterMBean, 'start')
+         #print "INFO: " + clusterName + " successfully started."
+         status = _SUCCESS_
+      # Start or restart the individual JVMs if the cluster is partially started/stopped
+      elif (clusterState == "websphere.cluster.partial.start" or clusterState == "websphere.cluster.partial.stop"):
+          print "INFO: Some JVMs in cluster are currently stopped, starting " + clusterName +" in progress..."
+          clusterMembers = AdminConfig.list('ClusterMember', clusterID)
+          for member in clusterMembers.split(lineSep):
+             serverName  = AdminConfig.showAttribute(member, 'memberName')
+             nodeName    = AdminConfig.showAttribute(member, 'nodeName')
+             serverMBean = AdminControl.completeObjectName('type=Server,name='+serverName+',*')
+             if (serverMBean != '' and AdminControl.invoke(serverMBean,'getState')=="STARTED"):
+                AdminControl.invoke(serverMBean,'restart')
+                print "INFO: Restarting " +serverName
+             else:
+                AdminControl.startServer(serverName, nodeName)
+                print "INFO: Starting " +serverName
+          status = _SUCCESS_
+      else:
+         print "Exception: Unknown cluster status, unable to complete ripple start request."
+         status = _FAILURE_
+      #endIf
+   except:
+      typ, val, tb = sys.exc_info()
+      if(typ==SystemExit):  raise SystemExit,`val`
+      print "Exception: %s %s " % (sys.exc_type, sys.exc_value)
+      status = _FAILURE_
+   #endTry
+   return status
+#endDef
+
+# Main
+try:
+   status = _UNKNOWN_
+   if(len(sys.argv) == 2):
+      envName    	= sys.argv[0]
+      clusterName	= sys.argv[1]
+      if (validateCluster(clusterName)==_SUCCESS_):
+         status = rippleStartCluster(clusterName)
+      #endIf
+   else:
+      print "Exception: Invalid Request, bad or missing input parameter(s)."
+      status = _FAILURE_
+      #raise Exception, "Invalid Request."
+   #endIf
+   print "Status: ", status
+except:
+   print "Exception: The cluster cannot be located or is not running"
+   status = _FAILURE_
+   print "Status: ", status
+#endTry
+#endMain

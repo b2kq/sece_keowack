@@ -1,0 +1,1 @@
+AdminControl.queryNames('type=Application,name='+ appName + ',process=' + jvmName + ',node=' + nodeName + ',*')

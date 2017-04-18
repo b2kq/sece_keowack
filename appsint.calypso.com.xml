@@ -1,0 +1,24 @@
+<EnterpriseApplication>
+	<WebServer>
+		<Name>appsint-ecalypso-com</Name>
+		<Port>80</Port>
+		<WebRoot>J:/IBM/HTTPServer70</WebRoot>
+		<PluginRoot>J:/IBM/HTTPServer70/Plugins</PluginRoot>
+		<WebConf>J:/conf/INT/appsint.eCalypso.com/httpd.conf</WebConf>
+		<PluginConf>J:/conf/INT/appsint.eCalypso.com/plugin-cfg.xml</PluginConf>
+		<PluginLog>J:/logs/INT/appsint.eCalypso.com/http_plugin.log</PluginLog>
+                <ServiceName>IBMHTTPServer70-appsint.eCalypso.com</ServiceName>
+		<Nodes>
+			<Node>
+				<NodeName>appsint.eCalypso.com-ihs63V70</NodeName>
+				<HostName>10.255.161.71</HostName>
+				<NodeOS>windows</NodeOS>
+			</Node>
+			<Node>
+				<NodeName>appsint.eCalypso.com-ihs64V70</NodeName>
+				<HostName>10.255.161.112</HostName>
+				<NodeOS>windows</NodeOS>
+			</Node>
+		</Nodes>
+	</WebServer>
+</EnterpriseApplication>

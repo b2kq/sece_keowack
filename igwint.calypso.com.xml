@@ -1,0 +1,24 @@
+<EnterpriseApplication>
+	<WebServer>
+		<Name>igwint-Calypso-com</Name>
+		<Port>80</Port>
+		<WebRoot>J:/IBM/HTTPServer80</WebRoot>
+		<PluginRoot>J:/IBM/WebSphere/Plugins</PluginRoot>
+		<WebConf>J:/conf/INT/igwint.Calypso.com/httpd.conf</WebConf>
+		<PluginConf>J:/conf/INT/igwint.Calypso.com/plugin-cfg.xml</PluginConf>
+		<PluginLog>J:/logs/INT/igwint.Calypso.com/http_plugin.log</PluginLog>
+                <ServiceName>IBMHTTPServer80-igwint.Calypso.com</ServiceName>
+		<Nodes>
+			<Node>
+				<NodeName>igwint.Calypso.com-ihs720aV80</NodeName>
+				<HostName>10.255.161.221</HostName>
+				<NodeOS>windows</NodeOS>
+			</Node>
+			<Node>
+				<NodeName>igwint.Calypso.com-ihs720bV80</NodeName>
+				<HostName>10.255.161.222</HostName>
+				<NodeOS>windows</NodeOS>
+			</Node>
+		</Nodes>
+	</WebServer>
+</EnterpriseApplication>

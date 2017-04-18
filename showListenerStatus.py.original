@@ -1,0 +1,60 @@
+JYTHON_HOME = "/promotion/jython"
+execfile(JYTHON_HOME+"/global.py")
+execfile(JYTHON_HOME+"/globalconstants.py")
+
+def showListenerStatus(envName):
+   try:
+      f = open("J:/temp/"+envName+"_ListenerPorts.txt","w")
+      f.write("MsgListenerPort Status for " + envName + CRLF + CRLF)
+      servers = AdminTask.listServers('[-serverType APPLICATION_SERVER]')
+      for aServer in servers.split(lineSep):
+         serverName = AdminConfig.showAttribute(aServer ,'name')
+         portList = AdminControl.queryNames("type=ListenerPort,process=" + serverName + ",*")
+         if(portList != ""):
+            for lPort in portList.split(lineSep):
+               state = AdminControl.getAttribute(lPort, 'started')
+               portId = AdminControl.getConfigId(lPort)
+               pName = AdminConfig.showAttribute(portId, 'name')
+               if state == 'true':
+                  f.write('%30s %s is up' % (serverName, pName) + CRLF)
+               else:
+                  f.write('%30s %s is down' % (serverName, pName) + CRLF)
+                  #AdminControl.invoke(lPort, 'start')
+               #endIf
+            #endFor
+         #endIf
+      #endFor
+      f.close()
+      status = _SUCCESS_
+      return status
+   except:
+      typ, val, tb = sys.exc_info()
+      if(typ==SystemExit):  raise SystemExit,`val`
+      print "Exception: %s %s " % (sys.exc_type, sys.exc_value)
+      status = _FAILURE_
+      #return status
+      print "Status: ", status
+   #endTry
+#endDef
+
+#Main
+try:
+   status = _UNKNOWN_
+   if(len(sys.argv) == 1):
+      envName    = sys.argv[0]
+      status = showListenerStatus(envName)
+      print CRLF + "Done, see results in J:/temp/"+envName+"_ListenerPorts.txt" + CRLF
+      print "Status: ", status
+      #endIf
+   else:
+      print "Exception: Main - Missing environment name."
+      status = _FAILURE_
+      print "Status: ", status
+      raise Exception, "Invalid Request."
+   #endIf
+except:
+   print "Exception: Invalid Request."
+   status = _FAILURE_
+   print "Status: ", status
+#endTry
+#endMain

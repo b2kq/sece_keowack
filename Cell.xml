@@ -1,0 +1,18 @@
+<EnterpriseApplication>
+	<CellResources>
+		<WebSphereVariables>
+			<Variable>
+				<VariableName>deployEnv</VariableName>
+				<VariableValue>int</VariableValue>
+			</Variable>
+			<Variable>
+				<VariableName>SONIC_DOMAINMGR_URL</VariableName>
+				<VariableValue>tcp://kahobtesbb91.kah.Calypso.com:2506,tcp://kahobtesbb92.kah.Calypso.com:2506</VariableValue>
+			</Variable>
+			<Variable>
+				<VariableName>SONIC_CLASSPATH</VariableName>
+				<VariableValue>${SONIC_LIB_PATH}/mfcontext.jar;${SONIC_LIB_PATH}/sonic_ASPI.jar;${SONIC_LIB_PATH}/sonic_Client.jar;${SONIC_LIB_PATH}/sonic_Client_ext.jar;${SONIC_LIB_PATH}/sonic_Crypto.jar;${SONIC_LIB_PATH}/sonic_Selector.jar;${SONIC_LIB_PATH}/sonic_XA.jar;${SONIC_LIB_PATH}/sonic_XMessage.jar</VariableValue>
+			</Variable>
+		</WebSphereVariables>
+	</CellResources>
+</EnterpriseApplication>
